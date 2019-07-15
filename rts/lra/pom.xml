@@ -38,6 +38,7 @@
         </repository>
     </repositories>
     <modules>
+        <module>flight-axon</module>
         <module>flight-service</module>
         <module>hotel-service</module>
         <module>trip-controller</module>

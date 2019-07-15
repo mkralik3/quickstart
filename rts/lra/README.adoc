@@ -35,11 +35,21 @@ java -jar $NARAYANA_INSTALL_LOCATION/rts/lra/lra-coordinator-thorntail.jar -Dswa
 java -jar $NARAYANA_INSTALL_LOCATION/rts/lra/lra-coordinator-thorntail.jar -Dswarm.http.port=8081
 ```
 
+Start the axon server and DB
+
+```bash
+docker run -it --rm --name postgres -p 5432:5432 -e POSTGRES_USER=flight -e POSTGRES_PASSWORD=secret postgres:9.6
+docker run -it --rm --name my-axon-server -p 8024:8024 -p 8124:8124 axoniq/axonserver
+```
+
 Start the trip, hotel and flight services:
 
 ```bash
 java -jar hotel-service/target/lra-test-swarm.jar -Dswarm.http.port=8082
 java -jar flight-service/target/lra-test-swarm.jar -Dswarm.http.port=8083 -Dlra.http.port=8081
+
+java -jar flight-axon/target/flight-axon-2.1.6.RELEASE.jar -Dlra.http.port=8081
+
 java -jar trip-controller/target/lra-test-swarm.jar -Dswarm.http.port=8084 -Dlra.http.port=8080
 ```
 
